@@ -33,25 +33,26 @@ let package = Package(
         .target(
             name: "Example Greeting Signature",
             dependencies: [
-                .product(name: "Example", package: "swift-example"),
+                .product(name: "Example", package: "swift-example")
             ]
         ),
         .target(
             name: "Example Counter Signature",
             dependencies: [
-                .product(name: "Example", package: "swift-example"),
+                .product(name: "Example", package: "swift-example")
             ]
         ),
         .target(
             name: "Example Signature",
             dependencies: [
-                .product(name: "Example", package: "swift-example"),
+                .product(name: "Example", package: "swift-example")
             ]
         ),
         .testTarget(
             name: "Example Signature Tests",
             dependencies: [
-                "Example Signature",
+                .target(name: "Example Signature"),
+                .product(name: "Example", package: "swift-example"),
                 .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
@@ -60,13 +61,15 @@ let package = Package(
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
-        .strictMemorySafety(),
-        .enableUpcomingFeature("ExistentialAny"),
-        .enableUpcomingFeature("InternalImportsByDefault"),
-        .enableUpcomingFeature("MemberImportVisibility"),
-        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-        .enableExperimentalFeature("Lifetimes"),
-        .enableUpcomingFeature("InferIsolatedConformances"),
-    ]
+    target.swiftSettings =
+        (target.swiftSettings ?? []) + [
+            .strictMemorySafety(),
+            .enableUpcomingFeature("ExistentialAny"),
+            .enableUpcomingFeature("InternalImportsByDefault"),
+            .enableUpcomingFeature("MemberImportVisibility"),
+            .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+            .enableUpcomingFeature("InferIsolatedConformances"),
+            .enableExperimentalFeature("Lifetimes"),
+            .treatAllWarnings(as: .error),
+        ]
 }

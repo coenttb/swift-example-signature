@@ -1,1 +1,3 @@
-@_exported public import Example
+public import Example
+
+public typealias Example = Example::Example
